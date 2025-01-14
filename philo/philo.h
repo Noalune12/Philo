@@ -7,8 +7,9 @@
 # include <stdint.h>
 # include <pthread.h>
 # include <stdio.h>
+#include <sys/time.h>
 
-# define NB_MAX_PHILO 2
+# define NB_MAX_PHILO 200
 
 typedef struct s_philo
 {
@@ -25,11 +26,13 @@ typedef struct s_philo
 	int				*dead;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*dead_mutex;
 }	t_philo;
 
 typedef struct s_simualtion
 {
 	int	dead;
+	pthread_mutex_t	dead_mutex;
 	t_philo	*philo;
 }	t_simulation;
 
@@ -37,6 +40,8 @@ int	ft_atoi(const char *nptr);
 int	ft_isdigit(int c);
 void	init_simulation(t_simulation *simu, t_philo *philo);
 void	init_struct(t_simulation *simu, int argc, char **argv, pthread_mutex_t *forks);
+int	create_threads(t_simulation *simu);
+size_t	get_current_time(void);
 
 void	print_struct(t_philo *philo, int nb_philo);
 

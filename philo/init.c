@@ -7,6 +7,16 @@ void	init_struct(t_simulation *simu, int argc, char **argv, pthread_mutex_t *for
 	i = 0;
 	while (i < ft_atoi(argv[1]))
 	{
+		if (pthread_mutex_init(&forks[i], NULL) != 0)
+		{
+			printf("Error: mutex init failed\n");
+			exit(EXIT_FAILURE); //return int instead of exit?? + destrot mutexes
+		}
+		i++;
+	}
+	i = 0;
+	while (i < ft_atoi(argv[1]))
+	{
 		simu->philo[i].id = i + 1;
 		simu->philo[i].status = 0; // 0 = thinking, 1 = eating, 2 = sleeping
 		simu->philo[i].meals_eaten = 0;
@@ -18,13 +28,14 @@ void	init_struct(t_simulation *simu, int argc, char **argv, pthread_mutex_t *for
 			simu->philo[i].nb_eat_times = ft_atoi(argv[5]);
 		else
 			simu->philo[i].nb_eat_times = -1;
-		simu->philo[i].last_eaten = 0;
+		simu->philo[i].last_eaten = get_current_time();
 		simu->philo[i].dead = &simu->dead;
 		simu->philo[i].left_fork = &forks[i];
 		if (i == 0) // init mutexes
 			simu->philo[i].right_fork = &forks[simu->philo[i].nb_philos - 1];
 		else
 			simu->philo[i].right_fork = &forks[i - 1];
+		simu->philo[i].dead_mutex = &simu->dead_mutex;
 		i++;
 	}
 }
@@ -32,6 +43,11 @@ void	init_struct(t_simulation *simu, int argc, char **argv, pthread_mutex_t *for
 void	init_simulation(t_simulation *simu, t_philo *philo)
 {
 	simu->dead = 0;
+	if (pthread_mutex_init(&simu->dead_mutex, NULL) != 0)
+	{
+		perror("Failed to initialize mutex"); //return int instead of exit?? + destrot mutexes
+		exit(EXIT_FAILURE);
+	}
 	simu->philo = philo;
 }
 

@@ -41,7 +41,9 @@ int	main(int argc, char **argv)
 	{
 		init_simulation(&simu, philo);
 		init_struct(&simu, argc, argv, forks);
-		print_struct(philo, ft_atoi(argv[1]));
+		// print_struct(philo, ft_atoi(argv[1]));
+		if (create_threads(&simu) == 1)
+			return (1);
 	}
 	return (0);
 }
