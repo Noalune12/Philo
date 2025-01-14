@@ -1,4 +1,4 @@
-#include "philosophers.h"
+#include "philo.h"
 
 int	check_arg_content(char *str)
 {
