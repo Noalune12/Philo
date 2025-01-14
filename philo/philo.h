@@ -8,25 +8,36 @@
 # include <pthread.h>
 # include <stdio.h>
 
+# define NB_MAX_PHILO 2
+
+typedef struct s_philo
+{
+	pthread_t	thread;
+	int				id;
+	int				status;
+	int				meals_eaten;
+	int				nb_philos;
+	size_t			die_time;
+	size_t			eat_time;
+	size_t			sleep_time;
+	int				nb_eat_times;
+	size_t			last_eaten;
+	int				*dead;
+	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	*left_fork;
+}	t_philo;
+
 typedef struct s_simualtion
 {
-	size_t	nb_philo;
-	size_t	die_time;
-	size_t	eat_time;
-	size_t	sleep_time;
-	size_t	eat_times;
+	int	dead;
+	t_philo	*philo;
 }	t_simulation;
-
-typedef struct s_philosophers
-{
-	size_t	id;
-	int	status;
-	int	last_eaten;
-	pthread_mutex_t	*fork;
-	pthread_mutex_t	mutex;
-}	t_philosophers;
 
 int	ft_atoi(const char *nptr);
 int	ft_isdigit(int c);
+void	init_simulation(t_simulation *simu, t_philo *philo);
+void	init_struct(t_simulation *simu, int argc, char **argv, pthread_mutex_t *forks);
+
+void	print_struct(t_philo *philo, int nb_philo);
 
 #endif

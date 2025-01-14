@@ -1,6 +1,6 @@
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -MMD -MP
+CFLAGS = -Wall -Werror -Wextra -MMD -MP -g3
 
 NAME = philo
 
@@ -8,7 +8,7 @@ RM = rm -f
 
 OBJDIR = objs
 
-SRCS = philo.c utils.c
+SRCS = philo.c utils.c init.c
 OBJS = $(patsubst %.c,$(OBJDIR)/%.o,$(SRCS))
 DEPS = $(OBJS:.o=.d)
 
