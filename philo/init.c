@@ -24,6 +24,7 @@ void	init_struct(t_simulation *simu, int argc, char **argv, pthread_mutex_t *for
 		simu->philo[i].die_time = ft_atoi(argv[2]);
 		simu->philo[i].eat_time = ft_atoi(argv[3]);
 		simu->philo[i].sleep_time = ft_atoi(argv[4]);
+		simu->philo[i].start_time = get_current_time();
 		if (argc == 6)
 			simu->philo[i].nb_eat_times = ft_atoi(argv[5]);
 		else
@@ -36,6 +37,8 @@ void	init_struct(t_simulation *simu, int argc, char **argv, pthread_mutex_t *for
 		else
 			simu->philo[i].right_fork = &forks[i - 1];
 		simu->philo[i].dead_mutex = &simu->dead_mutex;
+		simu->philo[i].msg_mutex = &simu->msg_mutex;
+		simu->philo[i].meal_mutex = &simu->meal_mutex;
 		i++;
 	}
 }
@@ -43,6 +46,16 @@ void	init_struct(t_simulation *simu, int argc, char **argv, pthread_mutex_t *for
 void	init_simulation(t_simulation *simu, t_philo *philo)
 {
 	simu->dead = 0;
+	if (pthread_mutex_init(&simu->msg_mutex, NULL) != 0)
+	{
+		perror("Failed to initialize mutex"); //return int instead of exit?? + destrot mutexes
+		exit(EXIT_FAILURE);
+	}
+	if (pthread_mutex_init(&simu->meal_mutex, NULL) != 0)
+	{
+		perror("Failed to initialize mutex"); //return int instead of exit?? + destrot mutexes
+		exit(EXIT_FAILURE);
+	}
 	if (pthread_mutex_init(&simu->dead_mutex, NULL) != 0)
 	{
 		perror("Failed to initialize mutex"); //return int instead of exit?? + destrot mutexes

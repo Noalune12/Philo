@@ -8,7 +8,7 @@ RM = rm -f
 
 OBJDIR = objs
 
-SRCS = philo.c utils.c init.c threads.c
+SRCS = philo.c utils.c init.c threads.c utils_routine.c
 OBJS = $(patsubst %.c,$(OBJDIR)/%.o,$(SRCS))
 DEPS = $(OBJS:.o=.d)
 
