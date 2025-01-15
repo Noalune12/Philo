@@ -1,6 +1,6 @@
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -MMD -MP -g3
+CFLAGS = -Wall -Werror -Wextra -pthread -MMD -MP -g3
 
 NAME = philo
 
@@ -31,6 +31,6 @@ fclean : clean
 
 re : fclean all
 
-.PHONY : all clean fclean re bonus
+.PHONY : all clean fclean re
 
 -include $(DEPS)

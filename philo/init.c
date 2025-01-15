@@ -81,6 +81,7 @@ void	print_struct(t_philo *philo, int nb_philo)
 		printf("philo[%d].dead = %p\n", i, philo[i].dead);
 		printf("philo[%d].right_fork = %p\n", i, philo[i].right_fork);
 		printf("philo[%d].left_fork = %p\n", i, philo[i].left_fork);
+		printf("philo[%d].left_fork = %d\n", i, *(philo[i].left_fork));
 		printf("\n");
 		i++;
 	}

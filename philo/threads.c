@@ -129,14 +129,14 @@ void	*philo_routine(void *ptr)
 			break;
 
 		// Check if philo died due to time since last meal
-		pthread_mutex_lock(philo->dead_mutex);
-		if (get_current_time() - philo->last_eaten > philo->die_time)
-		{
-			*(philo->dead) = 1;
-			time = get_current_time() - philo->start_time;
-			printf("%zu %d died\n", time, philo->id);
-		}
-		pthread_mutex_unlock(philo->dead_mutex);
+		// pthread_mutex_lock(philo->dead_mutex);
+		// if (get_current_time() - philo->last_eaten > philo->die_time)
+		// {
+		// 	*(philo->dead) = 1;
+		// 	time = get_current_time() - philo->start_time;
+		// 	printf("%zu %d died\n", time, philo->id);
+		// }
+		// pthread_mutex_unlock(philo->dead_mutex);
 	}
 	pthread_join(monitor_thread, NULL); //protect
 	return (NULL);
