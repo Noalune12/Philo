@@ -45,3 +45,32 @@ int	ft_atoi(const char *nptr)
 	}
 	return ((int)(res * sign));
 }
+
+int	destroy_mutex(t_simulation *simu, pthread_mutex_t *forks, int mutex_simu, int mutex_forks)
+{
+	int	i;
+
+	i = 0;
+	//need protection ??
+	if (mutex_simu >= 1)
+		pthread_mutex_destroy(&simu->msg_mutex);
+	if (mutex_simu >= 2)
+		pthread_mutex_destroy(&simu->meal_mutex);
+	if (mutex_simu >= 3)
+		pthread_mutex_destroy(&simu->dead_mutex);
+	if (mutex_forks >= 0)
+	{
+		while (i < simu->philo[0].nb_philos && i < mutex_forks)
+		{
+			pthread_mutex_destroy(&forks[i]);
+			i++;
+		}
+	}
+	return (1);
+}
+
+int	error_msg(char *str)
+{
+	printf("%s", str);
+	return (1);
+}
