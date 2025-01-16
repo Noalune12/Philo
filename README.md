@@ -15,7 +15,7 @@ Youtube : https://youtube.com/playlist?list=PLfqABt5AS4FmuQf70psXrsMLEDQXNkLq2&f
 # Structure
 - Threads for each philo
 - Mutex for forks
-- - Think, Eat (2 forks), Sleep (after eating)
+- Think, Eat (2 forks), Sleep (after eating)
 Handle die of starvation
 
 # Data structure

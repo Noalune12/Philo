@@ -10,3 +10,9 @@ void	print_msg(char *str, t_philo *philo, int id)
 		printf("%zu %d %s\n", time, id, str);
 	pthread_mutex_unlock(philo->msg_mutex);
 }
+
+void	think_philo(t_philo *philo)
+{
+	philo->status = 0;
+	print_msg("is thinking", philo, philo->id);
+}

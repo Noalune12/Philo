@@ -49,6 +49,9 @@ int	create_threads(t_simulation *simu);
 size_t	get_current_time(void);
 void	print_msg(char *str, t_philo *philo, int id);
 
+void	*monitor_philo(void *ptr);
+void	think_philo(t_philo *philo);
+
 void	print_struct(t_philo *philo, int nb_philo);
 
 #endif
