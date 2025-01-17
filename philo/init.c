@@ -1,6 +1,7 @@
 #include "philo.h"
 
-static int	init_fork_mutex(char **argv, pthread_mutex_t *forks, t_simulation *simu)
+static int	init_fork_mutex(char **argv, pthread_mutex_t *forks,
+	t_simulation *simu)
 {
 	int	i;
 
@@ -31,7 +32,8 @@ static void	init_info_philo(t_philo *philo, int argc, char **argv)
 		philo->nb_eat_times = -1;
 }
 
-int	init_struct(t_simulation *simu, int argc, char **argv, pthread_mutex_t *forks)
+int	init_struct(t_simulation *simu, int argc, char **argv,
+	pthread_mutex_t *forks)
 {
 	int	i;
 
@@ -83,7 +85,9 @@ int	init_simulation(t_simulation *simu, t_philo *philo)
 
 void	print_struct(t_philo *philo, int nb_philo)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (i < nb_philo)
 	{
 		printf("philo[%d].id = %d\n", i, philo[i].id);

@@ -48,7 +48,6 @@ int	eat_philo(t_philo *philo)
 	}
 	pthread_mutex_lock(philo->right_fork);
 	print_msg("has taken a fork", philo, philo->id);
-
 	// Eating
 	philo->status = 1;
 	philo->last_eaten = get_current_time();
@@ -57,7 +56,6 @@ int	eat_philo(t_philo *philo)
 	pthread_mutex_lock(philo->meal_mutex);
 	philo->meals_eaten++;
 	pthread_mutex_unlock(philo->meal_mutex);
-
 	// Release forks
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);

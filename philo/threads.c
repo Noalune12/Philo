@@ -12,15 +12,13 @@ int	check_dead(t_philo *philo)
 	return (1);
 }
 
-// check all eaten
-
 void	*philo_routine(void *ptr)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)ptr;
 	if (philo->id % 2 == 0)
-		usleep(100);
+		usleep(10);
 	while (check_dead(philo) == 1)
 	{
 		//check dead inside loop to close program earlier ?
@@ -35,15 +33,16 @@ void	*philo_routine(void *ptr)
 
 int	create_threads(t_simulation *simu)
 {
-	int	i;
-	pthread_t monitor_thread;
+	int			i;
+	pthread_t	monitor_thread;
 
 	if (pthread_create(&monitor_thread, NULL, monitor_philo, simu->philo) != 0)
 		return (error_msg("Thread creation failed\n"));
 	i = 0;
 	while (i < simu->philo[0].nb_philos)
 	{
-		if (pthread_create(&simu->philo[i].thread, NULL, &philo_routine, &simu->philo[i]) != 0)
+		if (pthread_create(&simu->philo[i].thread, NULL,
+				&philo_routine, &simu->philo[i]) != 0)
 			return (error_msg("Thread creation failed\n"));
 		i++;
 	}

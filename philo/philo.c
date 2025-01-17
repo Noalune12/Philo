@@ -42,7 +42,8 @@ int	main(int argc, char **argv)
 	}
 	else
 	{
-		if (init_simulation(&simu, philo) == 1 || init_struct(&simu, argc, argv, forks) == 1)
+		if (init_simulation(&simu, philo) == 1
+			|| init_struct(&simu, argc, argv, forks) == 1)
 			return (1);
 		// print_struct(philo, ft_atoi(argv[1]));
 		if (create_threads(&simu) == 1)

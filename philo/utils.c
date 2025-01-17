@@ -46,7 +46,8 @@ int	ft_atoi(const char *nptr)
 	return ((int)(res * sign));
 }
 
-int	destroy_mutex(t_simulation *simu, pthread_mutex_t *forks, int mutex_simu, int mutex_forks)
+int	destroy_mutex(t_simulation *simu, pthread_mutex_t *forks, int mutex_simu,
+	int mutex_forks)
 {
 	int	i;
 

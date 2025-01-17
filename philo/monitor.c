@@ -32,7 +32,8 @@ static int	check_dead_philo(t_philo *philo)
 {
 	size_t	time;
 
-	if (get_current_time() - philo->last_eaten >= philo->die_time)
+	if (get_current_time() - philo->last_eaten >= philo->die_time
+		&& philo->status != 1)
 	{
 		pthread_mutex_lock(philo->dead_mutex);
 		*(philo->dead) = 1;
@@ -47,10 +48,10 @@ static int	check_dead_philo(t_philo *philo)
 	return (0);
 }
 
-void *monitor_philo(void *ptr)
+void	*monitor_philo(void *ptr)
 {
-	t_philo *philo;
-	int	i;
+	t_philo	*philo;
+	int		i;
 
 	philo = (t_philo *)ptr;
 	while (1)
@@ -60,17 +61,17 @@ void *monitor_philo(void *ptr)
 		if (*(philo->dead) == 1 || *(philo->dead) == -1)
 		{
 			pthread_mutex_unlock(philo->dead_mutex);
-			break;
+			break ;
 		}
 		pthread_mutex_unlock(philo->dead_mutex);
 		while (i < philo[0].nb_philos)
 		{
 			if (check_dead_philo(&philo[i]) == 1)
-				break;
+				break ;
 			i++;
 		}
 		if (check_all_meals_eaten(philo) == 1)
 			break ;
 	}
-	return NULL;
+	return (NULL);
 }
