@@ -16,9 +16,10 @@ void	*philo_routine(void *ptr)
 {
 	t_philo	*philo;
 
+	// launch only if all threads ok !?
 	philo = (t_philo *)ptr;
 	if (philo->id % 2 == 0)
-		usleep(10);
+		usleep(150);
 	while (check_dead(philo) == 1)
 	{
 		//check dead inside loop to close program earlier ?

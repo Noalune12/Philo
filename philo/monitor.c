@@ -38,11 +38,10 @@ static int	check_dead_philo(t_philo *philo)
 		pthread_mutex_lock(philo->dead_mutex);
 		*(philo->dead) = 1;
 		pthread_mutex_unlock(philo->dead_mutex);
-		// pthread_mutex_lock(philo->msg_mutex);
+		pthread_mutex_lock(philo->msg_mutex);
 		time = get_current_time() - philo->start_time;
 		printf("%zu %d died\n", time, philo->id);
-		// pthread_mutex_unlock(philo->msg_mutex);
-		// pthread_mutex_unlock(philo->dead_mutex);
+		pthread_mutex_unlock(philo->msg_mutex);
 		return (1);
 	}
 	return (0);
@@ -54,6 +53,7 @@ void	*monitor_philo(void *ptr)
 	int		i;
 
 	philo = (t_philo *)ptr;
+	// check if all thread laund = 1;
 	while (1)
 	{
 		i = 0;

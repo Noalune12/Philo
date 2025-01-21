@@ -20,6 +20,7 @@ static int	init_fork_mutex(char **argv, pthread_mutex_t *forks,
 
 static void	init_info_philo(t_philo *philo, int argc, char **argv)
 {
+	philo->thread_launch = 0;
 	philo->status = 0;
 	philo->meals_eaten = 0;
 	philo->nb_philos = ft_atoi(argv[1]);
@@ -78,6 +79,11 @@ int	init_simulation(t_simulation *simu, t_philo *philo)
 	{
 		printf("Failed to initialize mutex\n");
 		return (destroy_mutex(simu, NULL, 1, -1));
+	}
+	if (pthread_mutex_init(&simu->thread_mutex, NULL) != 0)
+	{
+		printf("Failed to initialize mutex\n");
+		return (destroy_mutex(simu, NULL, 4, -1));
 	}
 	simu->philo = philo;
 	return (0);

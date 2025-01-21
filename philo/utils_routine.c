@@ -32,7 +32,7 @@ void	sleep_philo(t_philo *philo)
 {
 	philo->status = 2;
 	print_msg("is sleeping", philo, philo->id);
-	usleep(philo->sleep_time * 1000);
+	ft_usleep(philo->sleep_time * 1000);
 }
 
 int	eat_philo(t_philo *philo)
@@ -42,7 +42,7 @@ int	eat_philo(t_philo *philo)
 	print_msg("has taken a fork", philo, philo->id);
 	if (philo->nb_philos == 1)
 	{
-		usleep(philo->die_time * 1000);
+		ft_usleep(philo->die_time * 1000);
 		pthread_mutex_unlock(philo->left_fork);
 		return (0);
 	}
@@ -52,7 +52,7 @@ int	eat_philo(t_philo *philo)
 	philo->status = 1;
 	philo->last_eaten = get_current_time();
 	print_msg("is eating", philo, philo->id);
-	usleep(philo->eat_time * 1000);
+	ft_usleep(philo->eat_time * 1000);
 	pthread_mutex_lock(philo->meal_mutex);
 	philo->meals_eaten++;
 	pthread_mutex_unlock(philo->meal_mutex);
