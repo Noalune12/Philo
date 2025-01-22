@@ -12,11 +12,8 @@
 # include <sys/time.h>
 
 # define NB_MAX_PHILO 200
-# define FREE 0
+# define AVAILABLE 0
 # define TAKEN 1
-# define SUCCESS 0
-# define FAILURE 1
-
 
 typedef struct s_philo
 {
@@ -34,6 +31,8 @@ typedef struct s_philo
 	int				*dead;
 	int				*right_fork;
 	int				left_fork;
+	int				right_fork_taken;
+	int				left_fork_taken;
 	pthread_mutex_t	*right_fork_mutex;
 	pthread_mutex_t	left_fork_mutex;
 	pthread_mutex_t	*dead_mutex;
@@ -59,6 +58,7 @@ int		create_threads(t_simulation *simu);
 size_t	get_current_time(void);
 void	print_msg(char *str, t_philo *philo, int id);
 int		error_msg(char *str);
+int	check_dead(t_philo *philo);
 
 void	*monitor_philo(void *ptr);
 void	think_philo(t_philo *philo);

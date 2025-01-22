@@ -8,13 +8,27 @@ size_t	get_current_time(void)
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
+void	ft_usleep(long usec)
+{
+	struct timeval	start;
+	struct timeval	current;
+
+	gettimeofday(&start, NULL);
+	gettimeofday(&current, NULL);
+	while ((current.tv_sec - start.tv_sec) * 1000000 + (current.tv_usec - start.tv_usec) < usec)
+	{
+		usleep(100);
+		gettimeofday(&current, NULL);
+	}
+}
+
 void	print_msg(char *str, t_philo *philo, int id)
 {
 	size_t	time;
 
 	// pthread_mutex_lock(philo->dead_mutex);
-	pthread_mutex_lock(philo->msg_mutex);
 	time = get_current_time() - philo->start_time;
+	pthread_mutex_lock(philo->msg_mutex);
 	// printf("sphilo death = %d\n\n", *philo->dead);
 	if (*philo->dead == 0)
 		printf("%zu %d %s\n", time, id, str);
@@ -26,6 +40,7 @@ void	think_philo(t_philo *philo)
 {
 	philo->status = 0; // not needed
 	print_msg("is thinking", philo, philo->id);
+	usleep(10);
 }
 
 void	sleep_philo(t_philo *philo)
@@ -33,31 +48,4 @@ void	sleep_philo(t_philo *philo)
 	philo->status = 2;
 	print_msg("is sleeping", philo, philo->id);
 	ft_usleep(philo->sleep_time * 1000);
-}
-
-int	eat_philo(t_philo *philo)
-{
-	// Take forks
-	pthread_mutex_lock(&philo->left_fork_mutex);
-	print_msg("has taken a fork", philo, philo->id);
-	if (philo->nb_philos == 1)
-	{
-		ft_usleep(philo->die_time * 1000);
-		pthread_mutex_unlock(&philo->left_fork_mutex);
-		return (0);
-	}
-	pthread_mutex_lock(philo->right_fork_mutex);
-	print_msg("has taken a fork", philo, philo->id);
-	// Eating
-	philo->status = 1;
-	philo->last_eaten = get_current_time();
-	print_msg("is eating", philo, philo->id);
-	ft_usleep(philo->eat_time * 1000);
-	pthread_mutex_lock(philo->meal_mutex);
-	philo->meals_eaten++;
-	pthread_mutex_unlock(philo->meal_mutex);
-	// Release forks
-	pthread_mutex_unlock(philo->right_fork_mutex);
-	pthread_mutex_unlock(&philo->left_fork_mutex);
-	return (1);
 }

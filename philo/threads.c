@@ -21,7 +21,7 @@ void	*philo_routine(void *ptr)
 	if (philo->id % 2 == 0)
 	{
 		think_philo(philo);
-		ft_usleep(philo->eat_time);
+		ft_usleep(philo->eat_time * 100);
 	}
 	while (check_dead(philo) == 1)
 	{
@@ -35,11 +35,27 @@ void	*philo_routine(void *ptr)
 	return (NULL);
 }
 
+static void	one_philo_eat_routine(t_philo *philo)
+{
+	think_philo(philo);
+	pthread_mutex_lock(&philo->left_fork_mutex);
+	print_msg("has taken a fork", philo, philo->id);
+	ft_usleep(philo->die_time * 1000);
+	pthread_mutex_unlock(&philo->left_fork_mutex);
+	print_msg("is dead", philo, philo->id);
+}
+
+
 int	create_threads(t_simulation *simu)
 {
 	int			i;
 	pthread_t	monitor_thread;
 
+	if (simu->philo[0].nb_philos == 1)
+	{
+		one_philo_eat_routine(&simu->philo[0]);
+		return (0);
+	}
 	if (pthread_create(&monitor_thread, NULL, monitor_philo, simu->philo) != 0)
 		error_msg("Thread creation failed\n"); //no need to return ?
 	i = 0;

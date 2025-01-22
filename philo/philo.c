@@ -47,9 +47,9 @@ int	main(int argc, char **argv)
 		if (init_simulation(&simu, philo) == 1
 			|| init_struct(&simu, argc, argv, forks) == 1)
 			return (1);
-		print_struct(philo, ft_atoi(argv[1]));
-		// if (create_threads(&simu) == 1)
-			// return (destroy_mutex(&simu, forks, 3, ft_atoi(argv[1])));
+		// print_struct(philo, ft_atoi(argv[1]));
+		if (create_threads(&simu) == 1)
+			return (destroy_mutex(&simu, 3, ft_atoi(argv[1])));
 	}
 	destroy_mutex(&simu, 3, ft_atoi(argv[1]));
 	return (0);
