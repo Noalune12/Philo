@@ -19,15 +19,18 @@ void	*philo_routine(void *ptr)
 	// launch only if all threads ok !?
 	philo = (t_philo *)ptr;
 	if (philo->id % 2 == 0)
-		usleep(150);
+	{
+		think_philo(philo);
+		ft_usleep(philo->eat_time);
+	}
 	while (check_dead(philo) == 1)
 	{
 		//check dead inside loop to close program earlier ?
 		// printf("dead = %d\n\n", *(philo->dead));
-		think_philo(philo);
 		if (eat_philo(philo) == 0)
 			break ;
 		sleep_philo(philo);
+		think_philo(philo);
 	}
 	return (NULL);
 }
@@ -38,7 +41,7 @@ int	create_threads(t_simulation *simu)
 	pthread_t	monitor_thread;
 
 	if (pthread_create(&monitor_thread, NULL, monitor_philo, simu->philo) != 0)
-		return (error_msg("Thread creation failed\n"));
+		error_msg("Thread creation failed\n"); //no need to return ?
 	i = 0;
 	while (i < simu->philo[0].nb_philos)
 	{

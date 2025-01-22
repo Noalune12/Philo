@@ -7,14 +7,20 @@
 # include <stdint.h>
 # include <pthread.h>
 # include <stdio.h>
+# include <stdbool.h>
+# include <string.h>
 # include <sys/time.h>
 
 # define NB_MAX_PHILO 200
+# define FREE 0
+# define TAKEN 1
+# define SUCCESS 0
+# define FAILURE 1
+
 
 typedef struct s_philo
 {
 	pthread_t		thread;
-	int				thread_launch; // ??
 	int				id;
 	int				status; // 0 = thinking, 1 = eating, 2 = sleeping
 	int				meals_eaten;
@@ -26,12 +32,13 @@ typedef struct s_philo
 	int				nb_eat_times;
 	size_t			last_eaten;
 	int				*dead;
-	pthread_mutex_t	*right_fork;
-	pthread_mutex_t	*left_fork;
+	int				*right_fork;
+	int				left_fork;
+	pthread_mutex_t	*right_fork_mutex;
+	pthread_mutex_t	left_fork_mutex;
 	pthread_mutex_t	*dead_mutex;
 	pthread_mutex_t	*msg_mutex;
 	pthread_mutex_t	*meal_mutex;
-	pthread_mutex_t	*thread_mutex;
 }	t_philo;
 
 typedef struct s_simualtion
@@ -40,7 +47,6 @@ typedef struct s_simualtion
 	pthread_mutex_t	msg_mutex;
 	pthread_mutex_t	meal_mutex;
 	pthread_mutex_t	dead_mutex;
-	pthread_mutex_t	thread_mutex; // ??
 	t_philo			*philo;
 }	t_simulation;
 
@@ -60,7 +66,7 @@ void	sleep_philo(t_philo *philo);
 int		eat_philo(t_philo *philo);
 void	ft_usleep(long usec);
 
-int		destroy_mutex(t_simulation *simu, pthread_mutex_t *forks,
+int		destroy_mutex(t_simulation *simu,
 			int mutex_simu, int mutex_forks);
 
 void	print_struct(t_philo *philo, int nb_philo);

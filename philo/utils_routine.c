@@ -38,15 +38,15 @@ void	sleep_philo(t_philo *philo)
 int	eat_philo(t_philo *philo)
 {
 	// Take forks
-	pthread_mutex_lock(philo->left_fork);
+	pthread_mutex_lock(&philo->left_fork_mutex);
 	print_msg("has taken a fork", philo, philo->id);
 	if (philo->nb_philos == 1)
 	{
 		ft_usleep(philo->die_time * 1000);
-		pthread_mutex_unlock(philo->left_fork);
+		pthread_mutex_unlock(&philo->left_fork_mutex);
 		return (0);
 	}
-	pthread_mutex_lock(philo->right_fork);
+	pthread_mutex_lock(philo->right_fork_mutex);
 	print_msg("has taken a fork", philo, philo->id);
 	// Eating
 	philo->status = 1;
@@ -57,7 +57,7 @@ int	eat_philo(t_philo *philo)
 	philo->meals_eaten++;
 	pthread_mutex_unlock(philo->meal_mutex);
 	// Release forks
-	pthread_mutex_unlock(philo->right_fork);
-	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork_mutex);
+	pthread_mutex_unlock(&philo->left_fork_mutex);
 	return (1);
 }
