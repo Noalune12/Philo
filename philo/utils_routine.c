@@ -39,13 +39,13 @@ void	print_msg(char *str, t_philo *philo, int id)
 void	think_philo(t_philo *philo)
 {
 	philo->status = 0; // not needed
-	print_msg("is thinking", philo, philo->id);
+	print_msg(BLUE"is thinking"RESET, philo, philo->id);
 	usleep(10);
 }
 
 void	sleep_philo(t_philo *philo)
 {
 	philo->status = 2;
-	print_msg("is sleeping", philo, philo->id);
+	print_msg(PURPLE"is sleeping"RESET, philo, philo->id);
 	ft_usleep(philo->sleep_time * 1000);
 }

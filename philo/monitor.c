@@ -40,7 +40,7 @@ static int	check_dead_philo(t_philo *philo)
 		pthread_mutex_unlock(philo->dead_mutex);
 		pthread_mutex_lock(philo->msg_mutex);
 		time = get_current_time() - philo->start_time;
-		printf("%zu %d died\n", time, philo->id);
+		printf(RED"%zu %d died\n"RESET, time, philo->id);
 		pthread_mutex_unlock(philo->msg_mutex);
 		return (1);
 	}

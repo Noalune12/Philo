@@ -12,7 +12,7 @@ int	check_dead(t_philo *philo)
 	return (1);
 }
 
-void	*philo_routine(void *ptr)
+static void	*philo_routine(void *ptr)
 {
 	t_philo	*philo;
 
@@ -25,9 +25,9 @@ void	*philo_routine(void *ptr)
 	}
 	while (check_dead(philo) == 1)
 	{
-		//check dead inside loop to close program earlier ?
-		// printf("dead = %d\n\n", *(philo->dead));
 		if (eat_philo(philo) == 0)
+			break ;
+		if (philo->nb_eat_times != -1 && philo->meals_eaten == philo->nb_eat_times)
 			break ;
 		sleep_philo(philo);
 		think_philo(philo);
