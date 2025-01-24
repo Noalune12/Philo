@@ -31,12 +31,12 @@ static int	check_dead_philo(t_philo *philo)
 {
 	size_t	time;
 
-	pthread_mutex_lock(philo->status_mutex);
+	// pthread_mutex_lock(philo->status_mutex);
 	pthread_mutex_lock(philo->meal_mutex);
 	if (get_current_time() - philo->last_eaten >= philo->die_time
-		&& philo->status != 1)
+		&& philo->eating != 1)
 	{
-		pthread_mutex_unlock(philo->status_mutex);
+		// pthread_mutex_unlock(philo->status_mutex);
 		pthread_mutex_unlock(philo->meal_mutex);
 		pthread_mutex_lock(philo->dead_mutex);
 		*(philo->dead) = 1;
@@ -48,7 +48,7 @@ static int	check_dead_philo(t_philo *philo)
 		return (1);
 	}
 	pthread_mutex_unlock(philo->meal_mutex);
-	pthread_mutex_unlock(philo->status_mutex);
+	// pthread_mutex_unlock(philo->status_mutex);
 	return (0);
 }
 

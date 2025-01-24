@@ -30,7 +30,7 @@ typedef struct s_philo
 	pthread_t		thread;
 	int				*thread_fail;
 	int				id;
-	int				status; // 0 = thinking, 1 = eating, 2 = sleeping
+	int				eating;
 	int				meals_eaten;
 	int				nb_philos;
 	size_t			die_time;
@@ -49,7 +49,7 @@ typedef struct s_philo
 	pthread_mutex_t	*dead_mutex;
 	pthread_mutex_t	*msg_mutex;
 	pthread_mutex_t	*meal_mutex;
-	pthread_mutex_t	*status_mutex;
+	// pthread_mutex_t	*status_mutex;
 	pthread_mutex_t	*thread_mutex;
 }	t_philo;
 
@@ -61,7 +61,7 @@ typedef struct s_simualtion
 	pthread_mutex_t	msg_mutex;
 	pthread_mutex_t	meal_mutex;
 	pthread_mutex_t	dead_mutex;
-	pthread_mutex_t	status_mutex;
+	// pthread_mutex_t	status_mutex;
 	pthread_mutex_t	thread_mutex;
 	t_philo			*philo;
 }	t_simulation;

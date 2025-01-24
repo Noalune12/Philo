@@ -48,8 +48,8 @@ int	main(int argc, char **argv)
 			return (1);
 		// print_struct(philo, ft_atoi(argv[1]));
 		if (create_threads(&simu) == 1)
-			return (destroy_mutex(&simu, 5, ft_atoi(argv[1])));
+			return (destroy_mutex(&simu, 4, ft_atoi(argv[1])));
 	}
-	destroy_mutex(&simu, 5, ft_atoi(argv[1]));
+	destroy_mutex(&simu, 4, ft_atoi(argv[1]));
 	return (0);
 }

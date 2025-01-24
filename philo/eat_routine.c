@@ -49,15 +49,16 @@ int	eat_philo(t_philo *philo)
 {
 	while (take_forks(philo) == 0)
 		ft_usleep(10, philo);
-	pthread_mutex_lock(philo->status_mutex);
-	philo->status = 1;
-	pthread_mutex_unlock(philo->status_mutex);
+	// pthread_mutex_lock(philo->status_mutex);
+	// pthread_mutex_unlock(philo->status_mutex);
 	pthread_mutex_lock(philo->meal_mutex);
+	philo->eating = 1;
 	philo->last_eaten = get_current_time();
 	pthread_mutex_unlock(philo->meal_mutex);
 	print_msg(YELLOW"is eating"RESET, philo, philo->id);
 	ft_usleep(philo->eat_time * 1000, philo);
 	pthread_mutex_lock(philo->meal_mutex);
+	philo->eating = 0;
 	philo->meals_eaten++;
 	pthread_mutex_unlock(philo->meal_mutex);
 	pthread_mutex_lock(philo->rfork_mut);

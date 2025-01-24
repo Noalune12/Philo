@@ -10,7 +10,7 @@ static int	init_fork_mutex(char **argv, t_simulation *simu)
 		if (pthread_mutex_init(&simu->philo[i].lfork_mut, NULL) != 0)
 		{
 			printf("Failed to initialize mutex\n");
-			return (destroy_mutex(simu, 3, i));
+			return (destroy_mutex(simu, 4, i));
 		}
 		i++;
 	}
@@ -46,7 +46,7 @@ static void	add_forks_mutex(t_simulation *simu, int i)
 	simu->philo[i].dead_mutex = &simu->dead_mutex;
 	simu->philo[i].msg_mutex = &simu->msg_mutex;
 	simu->philo[i].meal_mutex = &simu->meal_mutex;
-	simu->philo[i].status_mutex = &simu->status_mutex;
+	// simu->philo[i].status_mutex = &simu->status_mutex;
 	simu->philo[i].thread_mutex = &simu->thread_mutex;
 }
 
