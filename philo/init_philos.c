@@ -46,7 +46,6 @@ static void	add_forks_mutex(t_simulation *simu, int i)
 	simu->philo[i].dead_mutex = &simu->dead_mutex;
 	simu->philo[i].msg_mutex = &simu->msg_mutex;
 	simu->philo[i].meal_mutex = &simu->meal_mutex;
-	// simu->philo[i].status_mutex = &simu->status_mutex;
 	simu->philo[i].thread_mutex = &simu->thread_mutex;
 }
 

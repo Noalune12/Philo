@@ -49,7 +49,6 @@ typedef struct s_philo
 	pthread_mutex_t	*dead_mutex;
 	pthread_mutex_t	*msg_mutex;
 	pthread_mutex_t	*meal_mutex;
-	// pthread_mutex_t	*status_mutex;
 	pthread_mutex_t	*thread_mutex;
 }	t_philo;
 
@@ -61,7 +60,6 @@ typedef struct s_simualtion
 	pthread_mutex_t	msg_mutex;
 	pthread_mutex_t	meal_mutex;
 	pthread_mutex_t	dead_mutex;
-	// pthread_mutex_t	status_mutex;
 	pthread_mutex_t	thread_mutex;
 	t_philo			*philo;
 }	t_simulation;

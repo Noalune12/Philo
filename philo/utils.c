@@ -58,8 +58,6 @@ int	destroy_mutex(t_simulation *simu, int mutex_simu,
 		pthread_mutex_destroy(&simu->meal_mutex);
 	if (mutex_simu >= 3)
 		pthread_mutex_destroy(&simu->dead_mutex);
-	// if (mutex_simu >= 4)
-	// 	pthread_mutex_destroy(&simu->status_mutex);
 	if (mutex_simu >= 4)
 		pthread_mutex_destroy(&simu->thread_mutex);
 	if (mutex_forks >= 0)

@@ -8,8 +8,6 @@ static int	init_mutex_simu(t_simulation *simu)
 		return (destroy_mutex(simu, 1, -1));
 	if (pthread_mutex_init(&simu->dead_mutex, NULL) != 0)
 		return (destroy_mutex(simu, 2, -1));
-	// if (pthread_mutex_init(&simu->status_mutex, NULL) != 0)
-	// 	return (destroy_mutex(simu, 3, -1));
 	if (pthread_mutex_init(&simu->thread_mutex, NULL) != 0)
 		return (destroy_mutex(simu, 3, -1));
 	return (0);
