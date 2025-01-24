@@ -59,21 +59,14 @@ static void	monitor_loop(t_philo *philo)
 	while (1)
 	{
 		i = 0;
-		pthread_mutex_lock(philo->dead_mutex);
-		if (*(philo->dead) == 1 || *(philo->dead) == -1)
-		{
-			pthread_mutex_unlock(philo->dead_mutex);
-			break ;
-		}
-		pthread_mutex_unlock(philo->dead_mutex);
 		while (i < philo[0].nb_philos)
 		{
 			if (check_dead_philo(&philo[i]) == 1)
-				break ;
+				return ;
 			i++;
 		}
 		if (check_all_meals_eaten(philo) == 1)
-			break ;
+			return ;
 	}
 }
 
