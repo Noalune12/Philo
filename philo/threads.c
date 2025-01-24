@@ -1,79 +1,73 @@
 #include "philo.h"
 
-int	check_dead(t_philo *philo)
+static int	one_philo(t_philo *philo, t_simulation *simu)
 {
-	pthread_mutex_lock(philo->dead_mutex);
-	if (*(philo->dead) == 1 || *(philo->dead) == -1)
-	{
-		pthread_mutex_unlock(philo->dead_mutex);
-		return (0);
-	}
-	pthread_mutex_unlock(philo->dead_mutex);
-	return (1);
+	if (pthread_create(&philo->thread, NULL, &one_philo_routine, philo) != 0)
+		return (error_msg("Thread creation failed\n", simu));
+	if (pthread_join(philo->thread, NULL) != 0)
+		return (error_msg("Thread join failed\n", simu));
+	return (0);
 }
 
-static void	*philo_routine(void *ptr)
+static int	join_threads(t_simulation *simu, pthread_t	monitor_thread,
+		int index, int fail)
 {
-	t_philo	*philo;
+	int	i;
 
-	// launch only if all threads ok !?
-	philo = (t_philo *)ptr;
-	if (philo->id % 2 == 0)
+	if (pthread_join(monitor_thread, NULL) != 0)
+		error_msg("Thread join failed\n", simu);
+	i = 0;
+	while (i < index)
 	{
-		think_philo(philo);
-		ft_usleep(philo->eat_time * 100);
+		if (pthread_join(simu->philo[i].thread, NULL) != 0)
+			error_msg("Thread join failed\n", simu);
+		i++;
 	}
-	while (check_dead(philo) == 1)
-	{
-		if (eat_philo(philo) == 0)
-			break ;
-		if (philo->nb_eat_times != -1 && philo->meals_eaten == philo->nb_eat_times)
-			break ;
-		sleep_philo(philo);
-		think_philo(philo);
-	}
-	return (NULL);
+	if (fail == 1)
+		return (1);
+	return (0);
 }
 
-static void	one_philo_eat_routine(t_philo *philo)
+static int	create_threads_loop(t_simulation *simu, int *fail, int i)
 {
-	think_philo(philo);
-	pthread_mutex_lock(&philo->left_fork_mutex);
-	print_msg("has taken a fork", philo, philo->id);
-	ft_usleep(philo->die_time * 1000);
-	pthread_mutex_unlock(&philo->left_fork_mutex);
-	print_msg("is dead", philo, philo->id);
+	if (pthread_create(&simu->philo[i].thread, NULL,
+			&philo_routine, &simu->philo[i]) != 0)
+	{
+		*fail = 1;
+		pthread_mutex_lock(&simu->thread_mutex);
+		simu->thread_fail = FAIL;
+		pthread_mutex_unlock(&simu->thread_mutex);
+		error_msg("Thread creation failed\n", simu);
+		return (1);
+	}
+	return (0);
 }
-
 
 int	create_threads(t_simulation *simu)
 {
 	int			i;
+	int			fail;
 	pthread_t	monitor_thread;
 
-	if (simu->philo[0].nb_philos == 1)
-	{
-		one_philo_eat_routine(&simu->philo[0]);
-		return (0);
-	}
+	if (simu->nb_philos == 1)
+		return (one_philo(&simu->philo[0], simu));
 	if (pthread_create(&monitor_thread, NULL, monitor_philo, simu->philo) != 0)
-		error_msg("Thread creation failed\n"); //no need to return ?
+		return (error_msg("Thread creation failed\n", simu));
 	i = 0;
-	while (i < simu->philo[0].nb_philos)
+	fail = 0;
+	while (i < simu->nb_philos)
 	{
-		if (pthread_create(&simu->philo[i].thread, NULL,
-				&philo_routine, &simu->philo[i]) != 0)
-			return (error_msg("Thread creation failed\n"));
+		if (create_threads_loop(simu, &fail, i) == 1)
+			break ;
 		i++;
 	}
-	if (pthread_join(monitor_thread, NULL) != 0)
-		return (error_msg("Thread join failed\n"));
-	i = 0;
-	while (i < simu->philo[0].nb_philos)
+	if (fail == 0)
 	{
-		if (pthread_join(simu->philo[i].thread, NULL) != 0)
-			return (error_msg("Thread join failed\n"));
-		i++;
+		pthread_mutex_lock(&simu->thread_mutex);
+		simu->thread_fail = SUCCESS;
+		pthread_mutex_unlock(&simu->thread_mutex);
 	}
+	if (join_threads(simu, monitor_thread, i, fail) == 1)
+		return (1);
 	return (0);
 }

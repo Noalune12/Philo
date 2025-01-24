@@ -1,11 +1,10 @@
 #include "philo.h"
 
-int	check_all_meals_eaten(t_philo *philo)
+static int	check_all_meals_eaten(t_philo *philo)
 {
 	int	i;
 	int	done_eating;
 
-	// printf("nb eat times = %d\n\n", philo[0].nb_eat_times);
 	if (philo[0].nb_eat_times == -1)
 		return (0);
 	i = 0;
@@ -32,9 +31,13 @@ static int	check_dead_philo(t_philo *philo)
 {
 	size_t	time;
 
+	pthread_mutex_lock(philo->status_mutex);
+	pthread_mutex_lock(philo->meal_mutex);
 	if (get_current_time() - philo->last_eaten >= philo->die_time
 		&& philo->status != 1)
 	{
+		pthread_mutex_unlock(philo->status_mutex);
+		pthread_mutex_unlock(philo->meal_mutex);
 		pthread_mutex_lock(philo->dead_mutex);
 		*(philo->dead) = 1;
 		pthread_mutex_unlock(philo->dead_mutex);
@@ -44,16 +47,15 @@ static int	check_dead_philo(t_philo *philo)
 		pthread_mutex_unlock(philo->msg_mutex);
 		return (1);
 	}
+	pthread_mutex_unlock(philo->meal_mutex);
+	pthread_mutex_unlock(philo->status_mutex);
 	return (0);
 }
 
-void	*monitor_philo(void *ptr)
+static void	monitor_loop(t_philo *philo)
 {
-	t_philo	*philo;
-	int		i;
+	int	i;
 
-	philo = (t_philo *)ptr;
-	// check if all thread laund = 1;
 	while (1)
 	{
 		i = 0;
@@ -73,5 +75,24 @@ void	*monitor_philo(void *ptr)
 		if (check_all_meals_eaten(philo) == 1)
 			break ;
 	}
+}
+
+void	*monitor_philo(void *ptr)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)ptr;
+	while (1)
+	{
+		pthread_mutex_lock(philo->thread_mutex);
+		if (*(philo->thread_fail) != CREATION)
+			break ;
+		pthread_mutex_unlock(philo->thread_mutex);
+		ft_usleep(10, philo);
+	}
+	pthread_mutex_unlock(philo->thread_mutex);
+	if (*(philo->thread_fail) == FAIL)
+		return (NULL);
+	monitor_loop(philo);
 	return (NULL);
 }

@@ -47,31 +47,36 @@ int	ft_atoi(const char *nptr)
 }
 
 int	destroy_mutex(t_simulation *simu, int mutex_simu,
-	int mutex_forks) //pthread_mutex_t *forks,
+	int mutex_forks)
 {
 	int	i;
-	(void)mutex_forks;
+
 	i = 0;
-	//need protection ??
 	if (mutex_simu >= 1)
 		pthread_mutex_destroy(&simu->msg_mutex);
 	if (mutex_simu >= 2)
 		pthread_mutex_destroy(&simu->meal_mutex);
 	if (mutex_simu >= 3)
 		pthread_mutex_destroy(&simu->dead_mutex);
-	// if (mutex_forks >= 0)
-	// {
-	// 	while (i < simu->philo[0].nb_philos && i < mutex_forks)
-	// 	{
-	// 		pthread_mutex_destroy(&forks[i]);
-	// 		i++;
-	// 	}
-	// }
+	if (mutex_simu >= 4)
+		pthread_mutex_destroy(&simu->status_mutex);
+	if (mutex_simu >= 5)
+		pthread_mutex_destroy(&simu->thread_mutex);
+	if (mutex_forks >= 0)
+	{
+		while (i < simu->philo[0].nb_philos && i < mutex_forks)
+		{
+			pthread_mutex_destroy(&simu->philo[i].lfork_mut);
+			i++;
+		}
+	}
 	return (1);
 }
 
-int	error_msg(char *str)
+int	error_msg(char *str, t_simulation *simu)
 {
+	pthread_mutex_lock(&simu->msg_mutex);
 	printf("%s", str);
+	pthread_mutex_unlock(&simu->msg_mutex);
 	return (1);
 }
