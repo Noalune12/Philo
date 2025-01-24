@@ -31,21 +31,21 @@ void	*philo_routine(void *ptr)
 	t_philo	*philo;
 
 	philo = (t_philo *)ptr;
-	while (1)
-	{
-		pthread_mutex_lock(philo->thread_mutex);
-		if (*(philo->thread_fail) != CREATION)
-			break ;
-		pthread_mutex_unlock(philo->thread_mutex);
-		ft_usleep(10, philo);
-	}
-	pthread_mutex_unlock(philo->thread_mutex);
-	if (*(philo->thread_fail) == FAIL)
-		return (NULL);
+	// while (1)
+	// {
+	// 	pthread_mutex_lock(philo->thread_mutex);
+	// 	if (*(philo->thread_fail) != CREATION)
+	// 		break ;
+	// 	pthread_mutex_unlock(philo->thread_mutex);
+	// 	ft_usleep(10, philo);
+	// }
+	// pthread_mutex_unlock(philo->thread_mutex);
+	// if (*(philo->thread_fail) == FAIL)
+	// 	return (NULL);
 	if (philo->id % 2 == 0)
 	{
 		think_philo(philo);
-		ft_usleep(philo->eat_time * 50, philo);
+		ft_usleep(philo->eat_time / 2, philo);
 	}
 	think_eat_sleep(philo);
 	return (NULL);
@@ -59,7 +59,7 @@ void	*one_philo_routine(void *ptr)
 	think_philo(philo);
 	pthread_mutex_lock(&philo->lfork_mut);
 	print_msg("has taken a fork", philo, philo->id);
-	ft_usleep(philo->die_time * 1000, philo);
+	ft_usleep(philo->die_time, philo);
 	pthread_mutex_unlock(&philo->lfork_mut);
 	print_msg("is dead", philo, philo->id);
 	return (NULL);

@@ -33,7 +33,6 @@ int	main(int argc, char **argv)
 {
 	t_philo			philo[NB_MAX_PHILO];
 	t_simulation	simu;
-	pthread_mutex_t	forks[NB_MAX_PHILO];
 
 	if ((argc != 6 && argc != 5) || check_args(argc, argv) == 0)
 	{
@@ -44,7 +43,7 @@ int	main(int argc, char **argv)
 	{
 		memset((void *)philo, 0, sizeof(philo));
 		if (init_simulation(&simu, philo, argv) == 1
-			|| init_struct(&simu, argc, argv, forks) == 1)
+			|| init_struct(&simu, argc, argv) == 1)
 			return (1);
 		// print_struct(philo, ft_atoi(argv[1]));
 		if (create_threads(&simu) == 1)

@@ -46,15 +46,13 @@ static void	add_forks_mutex(t_simulation *simu, int i)
 	simu->philo[i].dead_mutex = &simu->dead_mutex;
 	simu->philo[i].msg_mutex = &simu->msg_mutex;
 	simu->philo[i].meal_mutex = &simu->meal_mutex;
-	simu->philo[i].thread_mutex = &simu->thread_mutex;
+	// simu->philo[i].thread_mutex = &simu->thread_mutex;
 }
 
-int	init_struct(t_simulation *simu, int argc, char **argv,
-	pthread_mutex_t *forks)
+int	init_struct(t_simulation *simu, int argc, char **argv)
 {
 	int	i;
 
-	(void)forks;
 	simu->philo[0].nb_philos = ft_atoi(argv[1]);
 	if (init_fork_mutex(argv, simu) == 1)
 		return (1);
@@ -62,7 +60,6 @@ int	init_struct(t_simulation *simu, int argc, char **argv,
 	while (i < ft_atoi(argv[1]))
 	{
 		simu->philo[i].id = i + 1;
-		simu->philo[i].thread_fail = &simu->thread_fail;
 		init_info_philo(&simu->philo[i], argc, argv);
 		simu->philo[i].dead = &simu->dead;
 		add_forks_mutex(simu, i);

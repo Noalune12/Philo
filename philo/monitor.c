@@ -75,17 +75,17 @@ void	*monitor_philo(void *ptr)
 	t_philo	*philo;
 
 	philo = (t_philo *)ptr;
-	while (1)
-	{
-		pthread_mutex_lock(philo->thread_mutex);
-		if (*(philo->thread_fail) != CREATION)
-			break ;
-		pthread_mutex_unlock(philo->thread_mutex);
-		ft_usleep(10, philo);
-	}
-	pthread_mutex_unlock(philo->thread_mutex);
-	if (*(philo->thread_fail) == FAIL)
-		return (NULL);
+	// while (1)
+	// {
+	// 	pthread_mutex_lock(philo->thread_mutex);
+	// 	if (*(philo->thread_fail) != CREATION)
+	// 		break ;
+	// 	pthread_mutex_unlock(philo->thread_mutex);
+	// 	ft_usleep(10, philo);
+	// }
+	// pthread_mutex_unlock(philo->thread_mutex);
+	// if (*(philo->thread_fail) == FAIL)
+	// 	return (NULL);
 	monitor_loop(philo);
 	return (NULL);
 }

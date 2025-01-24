@@ -28,7 +28,6 @@
 typedef struct s_philo
 {
 	pthread_t		thread;
-	int				*thread_fail;
 	int				id;
 	int				eating;
 	int				meals_eaten;
@@ -49,7 +48,6 @@ typedef struct s_philo
 	pthread_mutex_t	*dead_mutex;
 	pthread_mutex_t	*msg_mutex;
 	pthread_mutex_t	*meal_mutex;
-	pthread_mutex_t	*thread_mutex;
 }	t_philo;
 
 typedef struct s_simualtion
@@ -60,32 +58,30 @@ typedef struct s_simualtion
 	pthread_mutex_t	msg_mutex;
 	pthread_mutex_t	meal_mutex;
 	pthread_mutex_t	dead_mutex;
-	pthread_mutex_t	thread_mutex;
 	t_philo			*philo;
 }	t_simulation;
 
-int		ft_atoi(const char *nptr);
-int		ft_isdigit(int c);
-int		init_simulation(t_simulation *simu, t_philo *philo, char **argv);
-int		init_struct(t_simulation *simu, int argc, char **argv,
-			pthread_mutex_t *forks);
-int		error_msg(char *str, t_simulation *simu);
+int	init_struct(t_simulation *simu, int argc, char **argv);
+int	init_simulation(t_simulation *simu, t_philo *philo, char **argv);
 
-int		create_threads(t_simulation *simu);
-size_t	get_current_time(void);
-void	print_msg(char *str, t_philo *philo, int id);
-int		check_dead(t_philo *philo);
-void	*monitor_philo(void *ptr);
+int	error_msg(char *str, t_simulation *simu);
+int	destroy_mutex(t_simulation *simu, int mutex_simu, int mutex_forks);
+int	ft_atoi(const char *nptr);
+int	ft_isdigit(int c);
+
+int	create_threads(t_simulation *simu);
+
 void	*one_philo_routine(void *ptr);
 void	*philo_routine(void *ptr);
+
+size_t	get_current_time(void);
+void	print_msg(char *str, t_philo *philo, int id);
+void	ft_usleep(size_t ms, t_philo *philo);
 void	think_philo(t_philo *philo);
 void	sleep_philo(t_philo *philo);
-int		eat_philo(t_philo *philo);
-void	ft_usleep(long usec, t_philo *philo);
+int	eat_philo(t_philo *philo);
+int	check_dead(t_philo *philo);
 
-int		destroy_mutex(t_simulation *simu,
-			int mutex_simu, int mutex_forks);
-
-void	print_struct(t_philo *philo, int nb_philo);
+void	*monitor_philo(void *ptr);
 
 #endif
