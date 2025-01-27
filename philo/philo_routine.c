@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_routine.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/27 08:41:25 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/01/27 08:45:09 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int	check_dead(t_philo *philo)
@@ -31,17 +43,17 @@ void	*philo_routine(void *ptr)
 	t_philo	*philo;
 
 	philo = (t_philo *)ptr;
-	// while (1)
-	// {
-	// 	pthread_mutex_lock(philo->thread_mutex);
-	// 	if (*(philo->thread_fail) != CREATION)
-	// 		break ;
-	// 	pthread_mutex_unlock(philo->thread_mutex);
-	// 	ft_usleep(10, philo);
-	// }
-	// pthread_mutex_unlock(philo->thread_mutex);
-	// if (*(philo->thread_fail) == FAIL)
-	// 	return (NULL);
+	while (1)
+	{
+		pthread_mutex_lock(philo->thread_mutex);
+		if (*(philo->thread_fail) != CREATION)
+			break ;
+		pthread_mutex_unlock(philo->thread_mutex);
+		ft_usleep(1, philo);
+	}
+	pthread_mutex_unlock(philo->thread_mutex);
+	if (*(philo->thread_fail) == FAIL)
+		return (NULL);
 	if (philo->id % 2 == 0)
 	{
 		think_philo(philo);
@@ -58,9 +70,9 @@ void	*one_philo_routine(void *ptr)
 	philo = (t_philo *)ptr;
 	think_philo(philo);
 	pthread_mutex_lock(&philo->lfork_mut);
-	print_msg("has taken a fork", philo, philo->id);
+	print_msg(GREEN"has taken a fork"RESET, philo, philo->id);
 	ft_usleep(philo->die_time, philo);
 	pthread_mutex_unlock(&philo->lfork_mut);
-	print_msg("is dead", philo, philo->id);
+	print_msg(RED"is dead"RESET, philo, philo->id);
 	return (NULL);
 }

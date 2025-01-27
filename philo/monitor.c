@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   monitor.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/27 08:41:23 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/01/27 08:42:31 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 static int	check_all_meals_eaten(t_philo *philo)
@@ -31,12 +43,10 @@ static int	check_dead_philo(t_philo *philo)
 {
 	size_t	time;
 
-	// pthread_mutex_lock(philo->status_mutex);
 	pthread_mutex_lock(philo->meal_mutex);
 	if (get_current_time() - philo->last_eaten >= philo->die_time
 		&& philo->eating != 1)
 	{
-		// pthread_mutex_unlock(philo->status_mutex);
 		pthread_mutex_unlock(philo->meal_mutex);
 		pthread_mutex_lock(philo->dead_mutex);
 		*(philo->dead) = 1;
@@ -48,7 +58,6 @@ static int	check_dead_philo(t_philo *philo)
 		return (1);
 	}
 	pthread_mutex_unlock(philo->meal_mutex);
-	// pthread_mutex_unlock(philo->status_mutex);
 	return (0);
 }
 
@@ -75,17 +84,17 @@ void	*monitor_philo(void *ptr)
 	t_philo	*philo;
 
 	philo = (t_philo *)ptr;
-	// while (1)
-	// {
-	// 	pthread_mutex_lock(philo->thread_mutex);
-	// 	if (*(philo->thread_fail) != CREATION)
-	// 		break ;
-	// 	pthread_mutex_unlock(philo->thread_mutex);
-	// 	ft_usleep(10, philo);
-	// }
-	// pthread_mutex_unlock(philo->thread_mutex);
-	// if (*(philo->thread_fail) == FAIL)
-	// 	return (NULL);
+	while (1)
+	{
+		pthread_mutex_lock(philo->thread_mutex);
+		if (*(philo->thread_fail) != CREATION)
+			break ;
+		pthread_mutex_unlock(philo->thread_mutex);
+		ft_usleep(10, philo);
+	}
+	pthread_mutex_unlock(philo->thread_mutex);
+	if (*(philo->thread_fail) == FAIL)
+		return (NULL);
 	monitor_loop(philo);
 	return (NULL);
 }

@@ -1,6 +1,18 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/01/27 08:40:49 by lbuisson          #+#    #+#              #
+#    Updated: 2025/01/27 08:43:28 by lbuisson         ###   ########lyon.fr    #
+#                                                                              #
+# **************************************************************************** #
+
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -pthread -MMD -MP -g3
+CFLAGS = -Wall -Werror -Wextra -pthread -MMD -MP -g3
 
 NAME = philo
 

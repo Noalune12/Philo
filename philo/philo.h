@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/27 08:41:31 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/01/27 09:46:32 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 
@@ -7,11 +19,9 @@
 # include <stdint.h>
 # include <pthread.h>
 # include <stdio.h>
-# include <stdbool.h>
 # include <string.h>
 # include <sys/time.h>
 
-# define NB_MAX_PHILO 200
 # define AVAILABLE 0
 # define TAKEN 1
 # define CREATION -1
@@ -28,6 +38,7 @@
 typedef struct s_philo
 {
 	pthread_t		thread;
+	int				*thread_fail;
 	int				id;
 	int				eating;
 	int				meals_eaten;
@@ -48,6 +59,7 @@ typedef struct s_philo
 	pthread_mutex_t	*dead_mutex;
 	pthread_mutex_t	*msg_mutex;
 	pthread_mutex_t	*meal_mutex;
+	pthread_mutex_t	*thread_mutex;
 }	t_philo;
 
 typedef struct s_simualtion
@@ -58,18 +70,19 @@ typedef struct s_simualtion
 	pthread_mutex_t	msg_mutex;
 	pthread_mutex_t	meal_mutex;
 	pthread_mutex_t	dead_mutex;
+	pthread_mutex_t	thread_mutex;
 	t_philo			*philo;
 }	t_simulation;
 
-int	init_struct(t_simulation *simu, int argc, char **argv);
-int	init_simulation(t_simulation *simu, t_philo *philo, char **argv);
+int		init_struct(t_simulation *simu, int argc, char **argv);
+int		init_simulation(t_simulation *simu, t_philo *philo, char **argv);
 
-int	error_msg(char *str, t_simulation *simu);
-int	destroy_mutex(t_simulation *simu, int mutex_simu, int mutex_forks);
-int	ft_atoi(const char *nptr);
-int	ft_isdigit(int c);
+int		error_msg(char *str, t_simulation *simu);
+int		destroy_mutex(t_simulation *simu, int mutex_simu, int mutex_forks);
+int		ft_atoi(const char *nptr);
+int		ft_isdigit(int c);
 
-int	create_threads(t_simulation *simu);
+int		create_threads(t_simulation *simu);
 
 void	*one_philo_routine(void *ptr);
 void	*philo_routine(void *ptr);
@@ -79,8 +92,8 @@ void	print_msg(char *str, t_philo *philo, int id);
 void	ft_usleep(size_t ms, t_philo *philo);
 void	think_philo(t_philo *philo);
 void	sleep_philo(t_philo *philo);
-int	eat_philo(t_philo *philo);
-int	check_dead(t_philo *philo);
+int		eat_philo(t_philo *philo);
+int		check_dead(t_philo *philo);
 
 void	*monitor_philo(void *ptr);
 

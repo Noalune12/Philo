@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_philos.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/27 08:41:17 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/01/27 09:46:18 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 static int	init_fork_mutex(char **argv, t_simulation *simu)
@@ -46,7 +58,8 @@ static void	add_forks_mutex(t_simulation *simu, int i)
 	simu->philo[i].dead_mutex = &simu->dead_mutex;
 	simu->philo[i].msg_mutex = &simu->msg_mutex;
 	simu->philo[i].meal_mutex = &simu->meal_mutex;
-	// simu->philo[i].thread_mutex = &simu->thread_mutex;
+	simu->philo[i].thread_mutex = &simu->thread_mutex;
+	simu->philo[i].thread_fail = &simu->thread_fail;
 }
 
 int	init_struct(t_simulation *simu, int argc, char **argv)

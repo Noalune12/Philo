@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   eat_routine.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/27 08:41:12 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/01/27 08:41:53 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 static int	left_fork(t_philo *philo)
@@ -49,8 +61,6 @@ int	eat_philo(t_philo *philo)
 {
 	while (take_forks(philo) == 0)
 		ft_usleep(1, philo);
-	// pthread_mutex_lock(philo->status_mutex);
-	// pthread_mutex_unlock(philo->status_mutex);
 	pthread_mutex_lock(philo->meal_mutex);
 	philo->eating = 1;
 	philo->last_eaten = get_current_time();

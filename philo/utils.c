@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/27 08:41:39 by lbuisson          #+#    #+#             */
+/*   Updated: 2025/01/27 09:44:17 by lbuisson         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int	ft_isdigit(int c)
@@ -58,8 +70,8 @@ int	destroy_mutex(t_simulation *simu, int mutex_simu,
 		pthread_mutex_destroy(&simu->meal_mutex);
 	if (mutex_simu >= 3)
 		pthread_mutex_destroy(&simu->dead_mutex);
-	// if (mutex_simu >= 4)
-	// 	pthread_mutex_destroy(&simu->thread_mutex);
+	if (mutex_simu >= 4)
+		pthread_mutex_destroy(&simu->thread_mutex);
 	if (mutex_forks >= 0)
 	{
 		while (i < simu->philo[0].nb_philos && i < mutex_forks)
@@ -68,6 +80,7 @@ int	destroy_mutex(t_simulation *simu, int mutex_simu,
 			i++;
 		}
 	}
+	free(simu->philo);
 	return (1);
 }
 
