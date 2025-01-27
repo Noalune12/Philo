@@ -6,7 +6,7 @@
 /*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 08:41:31 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/01/27 09:46:32 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/01/27 11:06:16 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <limits.h>
-# include <stdint.h>
 # include <pthread.h>
 # include <stdio.h>
 # include <string.h>

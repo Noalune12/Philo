@@ -6,7 +6,7 @@
 /*   By: lbuisson <lbuisson@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 08:41:12 by lbuisson          #+#    #+#             */
-/*   Updated: 2025/01/27 08:41:53 by lbuisson         ###   ########lyon.fr   */
+/*   Updated: 2025/01/27 11:10:33 by lbuisson         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ int	eat_philo(t_philo *philo)
 	philo->meals_eaten++;
 	pthread_mutex_unlock(philo->meal_mutex);
 	pthread_mutex_lock(philo->rfork_mut);
-	if (*(philo->right_fork) == TAKEN)
+	if (*(philo->right_fork) == TAKEN && philo->right_fork_taken == 1)
 		*(philo->right_fork) = AVAILABLE;
 	pthread_mutex_unlock(philo->rfork_mut);
 	pthread_mutex_lock(&philo->lfork_mut);
-	if (philo->left_fork == TAKEN)
+	if (philo->left_fork == TAKEN && philo->left_fork_taken == 1)
 		philo->left_fork = AVAILABLE;
 	pthread_mutex_unlock(&philo->lfork_mut);
 	philo->right_fork_taken = 0;
